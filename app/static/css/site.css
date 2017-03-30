@@ -1,0 +1,30 @@
+
+ * {
+
+ }
+
+ #banner {
+ 	padding: 4em 0 2em 0 !important;
+ }
+
+ input {
+ 	margin: 1rem;
+ }
+
+ section.wrapper {
+ 	padding: 2em 0;
+ }
+
+ .right {
+ 	float: right;
+ }
+
+ textarea {
+ 	font-family: "Courier", monospace;
+ 	font-size: 85%;
+ 	color: #111;
+ }
+
+ .inner {
+ 	max-width: 90% !important;
+ }

@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<!--
+	Theory by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>marmelad</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/static/template/assets/css/main.css" />
+		<link rel="stylesheet" href="/static/css/site.css" />
+	</head>
+	<body>
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<!--<a href="index.html" class="logo">marmelad</a>-->
+					<nav id="nav">
+						<a href="/">Home</a>
+						<a href="/python">Python</a>
+						<a href="/help">Help</a>
+						<a href="/about">About</a>
+					</nav>
+					<a href="#navPanel" class="navPanelToggle">
+						<span class="fa fa-bars"></span>
+					</a>
+				</div>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h1>welcome to marmelad</h1>
+				<p>A web front-end for server-side python script execution.</p>
+			</section>
+
+		<!-- Python Script -->
+			<section id="three" class="wrapper special">
+				<div class="inner">
+					<header class="align-center">
+						<h2>python</h2>
+					</header>
+					<div class="flex flex-2">
+						<article>
+							<header>
+								<a id="run-code" class="button small special right">run code</a>
+								<h3>script</h3>
+							</header>
+							<textarea id="code-contents" rows="16">print("Hello World!")</textarea>
+						</article>
+						<article>
+							<header>
+								<p id="code-status" class="right"><b style="color: red;">Idle</b></p>
+								<h3>output</h3>
+							</header>
+							<textarea id="code-output" rows="16" readonly=""></textarea>
+						</article>
+					</div>
+				</div>
+			</section>
+
+		<!-- Scripts -->
+			<script src="/static/template/assets/js/jquery.min.js"></script>
+			<script src="/static/template/assets/js/skel.min.js"></script>
+			<script src="/static/template/assets/js/util.js"></script>
+			<script src="/static/template/assets/js/main.js"></script>
+
+		<script>
+
+			$(document).ready( function() {
+
+				$('#run-code').on('click', function() {
+
+					$('#code-status').html('<b style="color: green;">Running ... 0</b>');
+
+					var timeout_count = 0;
+
+					function update_timeout() {
+						if ( timeout_count < 10 ) {
+
+							timeout_count++;
+							$('#code-status').html('<b style="color: green;">Running ... ' + timeout_count + '</b>');
+
+							timeout_count_id = setTimeout(
+								function() {
+									update_timeout();
+								},
+								1000
+							)
+
+						} else {
+							$('#code-status').html('<b style="color: green;">Running ... timeout!</b>');
+						}
+					}
+
+					
+					var timeout_count_id = setTimeout(
+						function() {
+							update_timeout();
+						},
+						1000
+					)
+
+
+					var url = '/run_script'
+
+					var email = "tim@timduffy.me"
+
+					var payload = {
+						email: email,
+						code: $('#code-contents').val()
+					}
+
+					$.post(
+						url,
+						JSON.stringify(payload),
+						function(resp) {			
+
+							//console.log(resp);
+
+							payload = JSON.parse(resp);
+
+							document.getElementById("code-output").value = payload.output;
+							
+							clearTimeout(timeout_count_id);
+							timeout_count = 0;
+
+							$('#code-status').html('<b style="color: red;">Idle</b>');
+						}
+					);
+
+				});
+
+			});
+
+		</script>
+
+
+	</body>
+</html>
